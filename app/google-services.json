@@ -1,0 +1,83 @@
+{
+  "project_info": {
+    "project_number": "706611095249",
+    "firebase_url": "https://clubssocs-98d94.firebaseio.com",
+    "project_id": "clubssocs-98d94",
+    "storage_bucket": "clubssocs-98d94.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:706611095249:android:25984cb4b6663bd9",
+        "android_client_info": {
+          "package_name": "com.example.ronan.clubssocs"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "706611095249-ein586p13pcei00gscvgj9rt3pmfmlro.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBNyAgjGotjRdTr26V97ixHsG28O0oYtMQ"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "706611095249-ein586p13pcei00gscvgj9rt3pmfmlro.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:706611095249:android:fe21ed6fa208ec70",
+        "android_client_info": {
+          "package_name": "com.example.ronan.wheremybus"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "706611095249-ein586p13pcei00gscvgj9rt3pmfmlro.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBNyAgjGotjRdTr26V97ixHsG28O0oYtMQ"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "706611095249-ein586p13pcei00gscvgj9rt3pmfmlro.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

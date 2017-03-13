@@ -48,7 +48,12 @@ public class BusAdapter extends ArrayAdapter<BusData> {
 
         routeVew.setText(currentBus.getRoute());
         destination.setText(currentBus.getDestination());
-        due.setText(currentBus.getDuetime());
+        String dueTime = currentBus.getDuetime();
+        if(dueTime.equals("Due")){
+            due.setText(currentBus.getDuetime());
+        }else {
+            due.setText(currentBus.getDuetime() + " Min");
+        }
 
 
 

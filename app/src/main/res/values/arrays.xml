@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="settings_order_by_labels">
+        <item>@string/settings_into_town_label</item>
+        <item>@string/settings_back_to_gaff_label</item>
+    </string-array>
+
+    <string-array name="settings_order_by_values">
+        <item>@string/settings_into_town_value</item>
+        <item>@string/settings_back_to_gaff__value</item>
+    </string-array>
+
+</resources>

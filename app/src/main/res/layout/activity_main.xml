@@ -10,13 +10,19 @@
     android:paddingTop="@dimen/activity_vertical_margin"
     tools:context="com.example.ronan.wheremybus.MainActivity">
 
-    <!--<TextView-->
-        <!--android:id="@+id/busTime"-->
-        <!--android:layout_width="wrap_content"-->
-        <!--android:layout_height="wrap_content"-->
-        <!--android:text="Next Bus in ...." />-->
+    <TextView
+        android:layout_marginTop="10dp"
+        android:id="@+id/heading"
+        android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+        android:textStyle="bold"
+        android:layout_centerHorizontal="true"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        tools:text="Where we at" />
 
     <ListView
+        android:layout_below="@+id/heading"
+        android:layout_marginTop="16dp"
         android:id="@+id/list"
         android:layout_height="wrap_content"
         android:layout_width="match_parent">

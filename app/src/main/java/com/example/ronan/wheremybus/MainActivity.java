@@ -2,12 +2,18 @@ package com.example.ronan.wheremybus;
 
 import android.app.LoaderManager;
 import android.content.Context;
+import android.content.Intent;
 import android.content.Loader;
+import android.content.SharedPreferences;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.net.Uri;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -15,26 +21,28 @@ import android.widget.Toast;
 import java.util.ArrayList;
 import java.util.List;
 
-public class MainActivity extends AppCompatActivity implements LoaderManager.LoaderCallbacks<List<BusData>> {
+public class MainActivity extends AppCompatActivity implements LoaderManager.LoaderCallbacks<List<BusData>>, SharedPreferences.OnSharedPreferenceChangeListener {
 
-    private static final String DUBLIN_BUS_URL = "https://data.dublinked.ie/cgi-bin/rtpi/realtimebusinformation?stopid=307&format=json";
+    private static final String DUBLIN_BUS_URL = "https://data.dublinked.ie/cgi-bin/rtpi/realtimebusinformation";
 
 
     private TextView bus;
 
     private static final int EARTHQUAKE_LOADER_ID = 1;
     private BusAdapter mAdapter;
-    ListView busListView;
+    private ListView busListView;
+    private TextView heading;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-         busListView = (ListView) findViewById(R.id.list);
+        busListView = (ListView) findViewById(R.id.list);
+        heading = (TextView) findViewById(R.id.heading);
 
 
-      //  bus = (TextView) findViewById(R.id.busTime);
+        //  bus = (TextView) findViewById(R.id.busTime);
 
 
         ConnectivityManager connectivityManager = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
@@ -51,28 +59,67 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
         } else {
             // Hide loading indicator because the data has been loaded
             //View loadingIndicator = findViewById(R.id.loading_indicator);
-          //  loadingIndicator.setVisibility(View.GONE);
+            //  loadingIndicator.setVisibility(View.GONE);
             bus.setText("No internet Connectivity");
         }
 
         mAdapter = new BusAdapter(this, new ArrayList<BusData>());
 
 
-        if(mAdapter!=null) {
+        if (mAdapter != null) {
             busListView.setAdapter(mAdapter);
-
         }
 
 
+        // Obtain a reference to the SharedPreferences file for this app
+        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
+        // And register to be notified of preference changes
+        // So we know when the user has adjusted the query settings
+        prefs.registerOnSharedPreferenceChangeListener(this);
 
+    }
 
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.main, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        int id = item.getItemId();
+        if (id == R.id.action_settings) {
+            Intent settingsIntent = new Intent(this, SettingsActivity.class);
+            startActivity(settingsIntent);
+            return true;
+        }
+        return super.onOptionsItemSelected(item);
     }
 
     @Override
     public Loader<List<BusData>> onCreateLoader(int i, Bundle bundle) {
 
-        Uri uri = Uri.parse(DUBLIN_BUS_URL);
-        return new BusDataLoader(this, uri.toString());
+        SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(this);
+
+        String orderBy = sharedPrefs.getString(
+                getString(R.string.settings_direction_key),
+                getString(R.string.settings_direction_default)
+        );
+
+        if (orderBy.equals(getString(R.string.settings_into_town_value)))
+            heading.setText("Buses into Town");
+        else
+            heading.setText("Buses back to gaff (Fleet st)");
+
+
+        Uri baseUri = Uri.parse(DUBLIN_BUS_URL);
+
+        Uri.Builder uriBuilder = baseUri.buildUpon();
+        uriBuilder.appendQueryParameter("stopid", orderBy);
+        uriBuilder.appendQueryParameter("format", "json");
+
+        Log.v("*path", uriBuilder.toString());
+        return new BusDataLoader(this, uriBuilder.toString());
     }
 
     @Override
@@ -99,6 +146,34 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
     @Override
     public void onLoaderReset(Loader<List<BusData>> loader) {
         mAdapter.clear();
+
+    }
+
+    @Override
+    public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
+
+//        Log.v("*pref","change");
+//
+//        SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(this);
+//
+//        String orderBy = sharedPrefs.getString(
+//                getString(R.string.settings_direction_key),
+//                getString(R.string.settings_direction_default)
+//        );
+//
+//        if (key.equals(getString(R.string.settings_direction_key))){
+//            Toast.makeText(getApplicationContext(), orderBy, Toast.LENGTH_LONG).show();
+//        }
+
+        mAdapter.clear();
+
+        getLoaderManager().restartLoader(EARTHQUAKE_LOADER_ID, null, this);
+
+        Intent main = new Intent(this, MainActivity.class);
+        startActivity(main);
+
+        Toast.makeText(getApplicationContext(), "Route Changed", Toast.LENGTH_LONG).show();
+
 
     }
 }

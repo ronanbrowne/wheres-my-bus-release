@@ -42,20 +42,22 @@ public class BusAdapter extends ArrayAdapter<BusData> {
 
         BusData currentBus = getItem(position);
 
-        TextView routeVew = (TextView) listItemView.findViewById(R.id.route);
-        TextView destination = (TextView) listItemView.findViewById(R.id.destination);
-        TextView due = (TextView) listItemView.findViewById(R.id.dueTime);
+        if(currentBus.getRoute().equals("150")) {
 
-        routeVew.setText(currentBus.getRoute());
-        destination.setText(currentBus.getDestination());
-        String dueTime = currentBus.getDuetime();
-        if(dueTime.equals("Due")){
-            due.setText(currentBus.getDuetime());
-        }else {
-            due.setText(currentBus.getDuetime() + " Min");
+            TextView routeVew = (TextView) listItemView.findViewById(R.id.route);
+            TextView destination = (TextView) listItemView.findViewById(R.id.destination);
+            TextView due = (TextView) listItemView.findViewById(R.id.dueTime);
+
+            routeVew.setText(currentBus.getRoute());
+            destination.setText(currentBus.getDestination());
+            String dueTime = currentBus.getDuetime();
+            if (dueTime.equals("Due")) {
+                due.setText(currentBus.getDuetime());
+            } else {
+                due.setText(currentBus.getDuetime() + " Min");
+            }
+
         }
-
-
 
 
 

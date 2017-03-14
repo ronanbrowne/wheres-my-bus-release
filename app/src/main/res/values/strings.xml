@@ -6,7 +6,7 @@
 
 
     <!-- Strings For Order-By Preference [CHAR LIMIT=30] -->
-    <string name="settings_direction_label">Bus Direction</string>
+    <string name="settings_direction_label">Change Bus Direction</string>
     <string name="settings_direction_key" translatable="false">route_direction</string>
     <string name="settings_direction_default" translatable="false">@string/settings_into_town_value</string>
 

@@ -14,7 +14,9 @@ import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.ListView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -32,15 +34,21 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
     private BusAdapter mAdapter;
     private ListView busListView;
     private TextView heading;
+    private TextView empty;
+    private ProgressBar loading;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setTheme(R.style.AppTheme);
         setContentView(R.layout.activity_main);
 
         busListView = (ListView) findViewById(R.id.list);
         heading = (TextView) findViewById(R.id.heading);
+        empty = (TextView) findViewById(R.id.empty);
+        loading = (ProgressBar) findViewById(R.id.loading);
 
+        empty.setVisibility(View.GONE);
 
         //  bus = (TextView) findViewById(R.id.busTime);
 
@@ -111,6 +119,7 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
         else
             heading.setText("Buses back to gaff (Fleet st)");
 
+        loading.setVisibility(View.VISIBLE);
 
         Uri baseUri = Uri.parse(DUBLIN_BUS_URL);
 
@@ -135,11 +144,25 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
         // Clear the adapter of previous earthquake data
         mAdapter.clear();
 
+        loading.setVisibility(View.GONE);
 
         // If there is a valid list of {@link Earthquake}s, then add them to the adapter's
         // data set. This will trigger the ListView to update.
         if (busDatas != null && !busDatas.isEmpty()) {
-            mAdapter.addAll(busDatas);
+
+            ArrayList<BusData> myBuses = new ArrayList<>();
+
+            for (BusData b : busDatas) {
+                Log.v("*route", b.getRoute());
+                if (b.getRoute().equals("150")) {
+                    myBuses.add(b);
+                }
+            }
+            mAdapter.addAll(myBuses);
+        } else {
+            empty.setVisibility(View.VISIBLE);
+
+
         }
     }
 

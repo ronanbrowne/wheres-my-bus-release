@@ -20,6 +20,29 @@
         android:layout_height="wrap_content"
         tools:text="Where we at" />
 
+    <TextView
+        android:paddingLeft="@dimen/activity_horizontal_margin"
+        android:layout_marginTop="10dp"
+        android:id="@+id/empty"
+        android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+        android:textStyle="bold"
+        android:layout_centerHorizontal="true"
+        android:layout_centerVertical="true"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="No bus data available .... buses only operate from 06.30 to 23.30 " />
+
+
+
+    <ProgressBar
+        android:id="@+id/loading"
+        android:layout_marginTop="20dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_centerVertical="true"
+        />
+
     <ListView
         android:layout_below="@+id/heading"
         android:layout_marginTop="16dp"

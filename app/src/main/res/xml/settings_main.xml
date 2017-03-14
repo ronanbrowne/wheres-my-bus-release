@@ -8,7 +8,8 @@
         android:entries="@array/settings_order_by_labels"
         android:entryValues="@array/settings_order_by_values"
         android:key="@string/settings_direction_key"
-        android:title="@string/settings_direction_label" />
+        android:title="@string/settings_direction_label"
+        />
 
 
 

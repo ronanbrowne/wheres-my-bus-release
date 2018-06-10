@@ -17,11 +17,14 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.ListView;
 import android.widget.ProgressBar;
+import android.widget.RadioButton;
+import android.widget.RadioGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.List;
+
 import android.os.Handler;
 
 public class MainActivity extends AppCompatActivity implements LoaderManager.LoaderCallbacks<List<BusData>>, SharedPreferences.OnSharedPreferenceChangeListener {
@@ -39,6 +42,9 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
     private TextView heading;
     private TextView empty;
     private ProgressBar loading;
+    private RadioGroup chooseStopGrou;
+
+    private String busStopNumber = "4495";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -50,10 +56,26 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
         heading = (TextView) findViewById(R.id.heading);
         empty = (TextView) findViewById(R.id.empty);
         loading = (ProgressBar) findViewById(R.id.loading);
+        chooseStopGrou = (RadioGroup) findViewById(R.id.radioStop);
 
         empty.setVisibility(View.GONE);
+        chooseStopGrou.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(RadioGroup radioGroup, int i) {
+                RadioButton rb = (RadioButton) findViewById(i);
 
-        //  bus = (TextView) findViewById(R.id.busTime);
+                if (rb.getText().equals("Abercrombie")) {
+                    busStopNumber = "1279";
+                    reload();
+                } else if (rb.getText().equals("Spar")) {
+                    busStopNumber = "1934";
+                    reload();
+                } else {
+                    busStopNumber = "4495";
+                    reload();
+                }
+            }
+        });
 
 
         ConnectivityManager connectivityManager = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
@@ -119,17 +141,23 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
                 getString(R.string.settings_direction_default)
         );
 
-        if (orderBy.equals(getString(R.string.settings_into_town_value)))
-            heading.setText("Buses into Town");
-        else
-            heading.setText("Buses back to gaff (Hawkins st)");
+        Uri baseUri = Uri.parse(DUBLIN_BUS_URL);
+        Uri.Builder uriBuilder = baseUri.buildUpon();
 
+        if (orderBy.equals(getString(R.string.settings_into_town_value))) {
+            heading.setText("Buses into Town");
+            chooseStopGrou.setVisibility(View.GONE);
+            uriBuilder.appendQueryParameter("stopid", orderBy);
+        } else {
+            heading.setText("Buses back to gaff");
+            chooseStopGrou.setVisibility(View.VISIBLE);
+            uriBuilder.appendQueryParameter("stopid", busStopNumber);
+
+        }
         loading.setVisibility(View.VISIBLE);
 
-        Uri baseUri = Uri.parse(DUBLIN_BUS_URL);
 
-        Uri.Builder uriBuilder = baseUri.buildUpon();
-        uriBuilder.appendQueryParameter("stopid", orderBy);
+        //   uriBuilder.appendQueryParameter("stopid", orderBy);
         uriBuilder.appendQueryParameter("format", "json");
 
         Log.v("*path", uriBuilder.toString());
@@ -216,7 +244,7 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
     }
 
     //RELOAD LOADER
-    void reload(){
+    void reload() {
         getLoaderManager().restartLoader(EARTHQUAKE_LOADER_ID, null, this);
     }
 }

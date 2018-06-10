@@ -11,46 +11,75 @@
     tools:context="com.example.ronan.wheremybus.MainActivity">
 
     <TextView
-        android:layout_marginTop="10dp"
         android:id="@+id/heading"
-        android:textAppearance="@style/TextAppearance.AppCompat.Medium"
-        android:textStyle="bold"
-        android:layout_centerHorizontal="true"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_below="@id/radioStop"
+        android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+        android:textStyle="bold"
         tools:text="Where we at" />
 
     <TextView
-        android:paddingLeft="@dimen/activity_horizontal_margin"
-        android:layout_marginTop="10dp"
         android:id="@+id/empty"
-        android:textAppearance="@style/TextAppearance.AppCompat.Medium"
-        android:textStyle="bold"
-        android:layout_centerHorizontal="true"
-        android:layout_centerVertical="true"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="No bus data available .... buses only operate from 06.30 to 23.30 " />
-
+        android:layout_centerHorizontal="true"
+        android:layout_centerVertical="true"
+        android:layout_marginTop="10dp"
+        android:paddingLeft="@dimen/activity_horizontal_margin"
+        android:text="No bus data available .... buses only operate from 06.30 to 23.30 "
+        android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+        android:textStyle="bold" />
 
 
     <ProgressBar
         android:id="@+id/loading"
-        android:layout_marginTop="20dp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
         android:layout_centerVertical="true"
-        />
+        android:layout_marginTop="20dp" />
 
     <ListView
-        android:layout_below="@+id/heading"
-        android:layout_marginTop="16dp"
         android:id="@+id/list"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_width="match_parent">
-    </ListView>
+        android:layout_below="@+id/heading"
+        android:layout_marginTop="16dp"></ListView>
 
+    <RadioGroup
+        android:id="@+id/radioStop"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_marginTop="10dp"
+        android:paddingBottom="20dp"
+        >
 
+        <RadioButton
+            android:id="@+id/radioSpar"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="0.7"
+            android:checked="true"
+            android:text="Spar" />
+
+        <RadioButton
+            android:id="@+id/radioAbercrombie"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="Abercrombie" />
+
+        <RadioButton
+            android:id="@+id/radioHawkis"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:checked="true"
+            android:text="Hawkins" />
+
+    </RadioGroup>
 
 </RelativeLayout>

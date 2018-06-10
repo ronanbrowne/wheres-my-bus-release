@@ -22,6 +22,7 @@ import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.List;
+import android.os.Handler;
 
 public class MainActivity extends AppCompatActivity implements LoaderManager.LoaderCallbacks<List<BusData>>, SharedPreferences.OnSharedPreferenceChangeListener {
 
@@ -31,6 +32,8 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
     private TextView bus;
 
     private static final int EARTHQUAKE_LOADER_ID = 1;
+    private final Handler handler = new Handler();
+
     private BusAdapter mAdapter;
     private ListView busListView;
     private TextView heading;
@@ -85,6 +88,8 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
         // So we know when the user has adjusted the query settings
         prefs.registerOnSharedPreferenceChangeListener(this);
 
+        doTheAutoRefresh();
+
     }
 
     @Override
@@ -117,7 +122,7 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
         if (orderBy.equals(getString(R.string.settings_into_town_value)))
             heading.setText("Buses into Town");
         else
-            heading.setText("Buses back to gaff (Fleet st)");
+            heading.setText("Buses back to gaff (Hawkins st)");
 
         loading.setVisibility(View.VISIBLE);
 
@@ -197,6 +202,21 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
 
         Toast.makeText(getApplicationContext(), "Route Changed", Toast.LENGTH_LONG).show();
 
+    }
 
+    //RECURSIVE METHOD TO REFRESH TIMES
+    private void doTheAutoRefresh() {
+        handler.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                reload();
+                doTheAutoRefresh();
+            }
+        }, 25000);
+    }
+
+    //RELOAD LOADER
+    void reload(){
+        getLoaderManager().restartLoader(EARTHQUAKE_LOADER_ID, null, this);
     }
 }

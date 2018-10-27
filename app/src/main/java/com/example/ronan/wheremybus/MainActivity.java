@@ -34,7 +34,7 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
 
     private TextView bus;
 
-    private static final int EARTHQUAKE_LOADER_ID = 1;
+    private static final int BUS_LOADER = 1;
     private final Handler handler = new Handler();
 
     private BusAdapter mAdapter;
@@ -64,7 +64,7 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
             public void onCheckedChanged(RadioGroup radioGroup, int i) {
                 RadioButton rb = (RadioButton) findViewById(i);
 
-                if (rb.getText().equals("Abercrombie")) {
+                if (rb.getText().equals("Tesco")) {
                     busStopNumber = "1279";
                     reload();
                 } else if (rb.getText().equals("Spar")) {
@@ -88,7 +88,7 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
             // Initialize the loader. Pass in the int ID constant defined above and pass in null for
             // the bundle. Pass in this activity for the LoaderCallbacks parameter (which is valid
             // because this activity implements the LoaderCallbacks interface).
-            loaderManager.initLoader(EARTHQUAKE_LOADER_ID, null, this);
+            loaderManager.initLoader(BUS_LOADER, null, this);
         } else {
             // Hide loading indicator because the data has been loaded
             //View loadingIndicator = findViewById(R.id.loading_indicator);
@@ -167,19 +167,12 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
     @Override
     public void onLoadFinished(Loader<List<BusData>> loader, List<BusData> busDatas) {
 
-//        Toast.makeText(this, "Route: "+busDatas.get(0).getRoute()+" Arrivat Time:"+busDatas.get(0).getDuetime() ,Toast.LENGTH_SHORT).show();
-//        bus.setText("Bus will be at the stop in: "+busDatas.get(0).getDuetime()+" Min " +
-//                "\nRoute: "+busDatas.get(0).getRoute()+
-//                "\nDestination: "+busDatas.get(0).getDestination());
-//
-
-
-        // Clear the adapter of previous earthquake data
+        // Clear the adapter of previous bus data
         mAdapter.clear();
 
         loading.setVisibility(View.GONE);
 
-        // If there is a valid list of {@link Earthquake}s, then add them to the adapter's
+        // If there is a valid list of {@link bus}s, then add them to the adapter's
         // data set. This will trigger the ListView to update.
         if (busDatas != null && !busDatas.isEmpty()) {
 
@@ -208,22 +201,9 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
     @Override
     public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
 
-//        Log.v("*pref","change");
-//
-//        SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(this);
-//
-//        String orderBy = sharedPrefs.getString(
-//                getString(R.string.settings_direction_key),
-//                getString(R.string.settings_direction_default)
-//        );
-//
-//        if (key.equals(getString(R.string.settings_direction_key))){
-//            Toast.makeText(getApplicationContext(), orderBy, Toast.LENGTH_LONG).show();
-//        }
-
         mAdapter.clear();
 
-        getLoaderManager().restartLoader(EARTHQUAKE_LOADER_ID, null, this);
+        getLoaderManager().restartLoader(BUS_LOADER, null, this);
 
         Intent main = new Intent(this, MainActivity.class);
         startActivity(main);
@@ -245,6 +225,6 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
 
     //RELOAD LOADER
     void reload() {
-        getLoaderManager().restartLoader(EARTHQUAKE_LOADER_ID, null, this);
+        getLoaderManager().restartLoader(BUS_LOADER, null, this);
     }
 }
